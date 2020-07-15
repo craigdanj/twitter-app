@@ -18,3 +18,14 @@ button.login {
   padding: 10px;
   cursor: pointer;
 }
+
+.tweetList {
+  list-style: none;
+  padding: 0;;
+  
+}
+.tweetList li {
+  color: white;
+  padding: 15px 0;
+  border-bottom: 1px solid #4e4e4e;
+}
