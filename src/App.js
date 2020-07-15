@@ -4,9 +4,7 @@ import './App.css';
 class App extends React.Component {
 
 	state = {
-		showHome: false,
-		oauthToken: null,
-		oauthVerifier: null
+		showHome: false
 	};
 
 	loginClicked = () => {
@@ -17,53 +15,49 @@ class App extends React.Component {
 		});
 	};
 
-	saveToken = () => {
-		console.log(this.state.oauthToken, this.state.oauthVerifier);
+	getPosts = () => {
 
-		fetch(`http://localhost:8080/sessions/saveAccessTokens?oauth_token=${this.state.oauthToken}&oauth_verifier=${this.state.oauthVerifier}`) 
-		.then(response => response.json()) 
-		.then(data => {
-			console.log(data);
-			// window.location.href = data.redirectUrl;
-		})
-		.catch(data => {
-			console.log('failed')
-		}); 
+		fetch(`http://localhost:8080/sessions/getPosts?oauthAccessToken=${localStorage.getItem('oauthAccessToken')}&oauthAccessTokenSecret=${localStorage.getItem('oauthAccessTokenSecret')}`) 
+			.then(response => response.json()) 
+			.then(data => {
+				console.log(data);
+				// window.location.href = data.redirectUrl;
+			})
+			.catch(data => {
+				console.log('failed')
+			}); 
 	};
 
 	componentDidMount() {
 
-		//If redirected to from twitter authorisation page then fetch access tokens.
+		//If redirected from twitter authorisation page then fetch access tokens with oauthToken.
 		const urlParams = new URLSearchParams(window.location.search);
 		const oauthToken = urlParams.get('oauth_token');
 		const oauthVerifier = urlParams.get('oauth_verifier');
 
 		if (oauthToken && oauthVerifier) {
-			//Store these in localStorage.
-		}
-
-		//Change condition to read from localStorage
-		if (oauthToken && oauthVerifier) {
 
 			this.setState({
-				showHome: true,
-				oauthToken,
-				oauthVerifier
+				showHome: true
 			});
 
-			//Get access tokens. Store then in local storage to be used with subsequent requests.
-
+			//Get access tokens. Store them in local storage to be used with subsequent requests.
 			fetch(`http://localhost:8080/sessions/getAccessTokens?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`) 
 				.then(response => response.json()) 
 				.then(data => {
 
 					if(data.success) {
-						console.log(data);
+						localStorage.setItem('oauthAccessToken', data.oauthAccessToken);
+						localStorage.setItem('oauthAccessTokenSecret', data.oauthAccessTokenSecret);
 					} else {
-						console.error('something went wrong');
+						//Send back to login page if token has expired or is invalid.
+						this.setState({
+							showHome: false
+						});
+						console.error('Token invalid');
 					}
-					// window.location.href = data.redirectUrl;
 				});
+
 		}
 	}
 
@@ -78,6 +72,9 @@ class App extends React.Component {
 		const home = (
 			<div>
 				Home
+
+				<button onClick={this.getPosts}>fetch</button>
+				<button onClick={this.logout}>logout</button>
 			</div>
 		)
 
