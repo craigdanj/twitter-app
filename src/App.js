@@ -14,7 +14,7 @@ class App extends React.Component {
 		.then(response => response.json()) 
 		.then(data => {
 			window.location.href = data.redirectUrl;
-		}); 
+		});
 	};
 
 	saveToken = () => {
@@ -25,22 +25,45 @@ class App extends React.Component {
 		.then(data => {
 			console.log(data);
 			// window.location.href = data.redirectUrl;
+		})
+		.catch(data => {
+			console.log('failed')
 		}); 
 	};
 
-
 	componentDidMount() {
+
+		//If redirected to from twitter authorisation page then fetch access tokens.
 		const urlParams = new URLSearchParams(window.location.search);
 		const oauthToken = urlParams.get('oauth_token');
 		const oauthVerifier = urlParams.get('oauth_verifier');
-		// console.log(oauthToken, oauthVerifier);
 
 		if (oauthToken && oauthVerifier) {
+			//Store these in localStorage.
+		}
+
+		//Change condition to read from localStorage
+		if (oauthToken && oauthVerifier) {
+
 			this.setState({
 				showHome: true,
 				oauthToken,
 				oauthVerifier
 			});
+
+			//Get access tokens. Store then in local storage to be used with subsequent requests.
+
+			fetch(`http://localhost:8080/sessions/getAccessTokens?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`) 
+				.then(response => response.json()) 
+				.then(data => {
+
+					if(data.success) {
+						console.log(data);
+					} else {
+						console.error('something went wrong');
+					}
+					// window.location.href = data.redirectUrl;
+				});
 		}
 	}
 
@@ -55,8 +78,6 @@ class App extends React.Component {
 		const home = (
 			<div>
 				Home
-				
-				<button onClick={this.saveToken}>Boom</button>
 			</div>
 		)
 
