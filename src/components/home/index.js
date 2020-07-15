@@ -8,7 +8,11 @@ class Home extends React.Component {
 	state = {
         loading: true,
 		posts: []
-	};
+    };
+    
+    logout = () => {
+
+    };
 
 	componentDidMount() {
         fetch(`http://localhost:8080/sessions/getPosts?oauthAccessToken=${localStorage.getItem('oauthAccessToken')}&oauthAccessTokenSecret=${localStorage.getItem('oauthAccessTokenSecret')}`) 
@@ -40,7 +44,7 @@ class Home extends React.Component {
 	render() {
 
 		return (
-			<div>
+			<div class="main">
 				<button onClick={this.logout} className="logout">logout</button>
 
 				<ul className="tweetList">

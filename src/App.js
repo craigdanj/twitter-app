@@ -5,8 +5,7 @@ import Home from './components/home';
 class App extends React.Component {
 
 	state = {
-		showHome: false,
-		posts: []
+		showHome: false
 	};
 
 	loginClicked = () => {
@@ -15,22 +14,6 @@ class App extends React.Component {
 		.then(data => {
 			window.location.href = data.redirectUrl;
 		});
-	};
-
-	getPosts = () => {
-
-		fetch(`http://localhost:8080/sessions/getPosts?oauthAccessToken=${localStorage.getItem('oauthAccessToken')}&oauthAccessTokenSecret=${localStorage.getItem('oauthAccessTokenSecret')}`) 
-			.then(response => response.json()) 
-			.then(data => {
-				if (data.success) {
-					this.setState({
-						posts: data.posts
-					});
-				}
-			})
-			.catch(data => {
-				console.error('something went wrong');
-			}); 
 	};
 
 	stripUrlParams(urlParams) {
@@ -89,21 +72,6 @@ class App extends React.Component {
 				<button className="login" onClick={this.loginClicked}>Login with Twitter</button>
 			</div>
 		);
-
-		const home = (
-			<div>
-				<button onClick={this.getPosts}>fetch</button>
-				<button onClick={this.logout}>logout</button>
-
-				<ul className="tweetList">
-				{
-					this.state.posts.map(post => {
-						return <li key={post.id}>{post.text}</li>
-					})
-				}
-				</ul>
-			</div>
-		)
 
 		return (
 			<div className="App">

@@ -21,7 +21,7 @@ button.login {
 
 .tweetList {
   list-style: none;
-  padding: 0;;
+  padding: 30px 0 0;
   
 }
 .tweetList li {
@@ -32,4 +32,8 @@ button.login {
 
 .logout {
   float: right;
+}
+
+.main {
+  width: 60%;
 }
