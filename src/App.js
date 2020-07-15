@@ -69,6 +69,7 @@ class App extends React.Component {
 
 		const login = (
 			<div>
+				<p>Hello welcome to the test application! Click on login below to log into the app</p>
 				<button className="login" onClick={this.loginClicked}>Login with Twitter</button>
 			</div>
 		);

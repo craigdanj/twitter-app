@@ -11,7 +11,9 @@ class Home extends React.Component {
     };
     
     logout = () => {
-
+        localStorage.removeItem('oauthAccessToken');
+        localStorage.removeItem('oauthAccessTokenSecret');
+        window.location.reload();
     };
 
 	componentDidMount() {
