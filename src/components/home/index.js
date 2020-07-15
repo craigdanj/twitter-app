@@ -1,5 +1,8 @@
 import React from 'react';
 
+
+const urlRegex = new RegExp('([a-zA-Z\d]+://)?((\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?)', 'i');
+
 class Home extends React.Component {
 
 	state = {
@@ -12,8 +15,17 @@ class Home extends React.Component {
             .then(response => response.json()) 
             .then(data => {
                 if (data.success) {
+                    const filteredPosts = data.posts.filter(post => {
+                        
+                        console.log(urlRegex.exec(post.text)[1]);
+                        if (urlRegex.exec(post.text)[1]) {
+                            return true;
+                        }
+                        return false;
+                    })
+
                     this.setState({
-                        posts: data.posts
+                        posts: filteredPosts
                     });
                 }
 
@@ -29,14 +41,14 @@ class Home extends React.Component {
 
 		return (
 			<div>
-				<button onClick={this.logout}>logout</button>
+				<button onClick={this.logout} className="logout">logout</button>
 
 				<ul className="tweetList">
 				{this.state.posts.length ?
 					this.state.posts.map(post => {
 						return <li key={post.id}>{post.text}</li>
                     })
-                    : this.state.loading ? null : <li>No posts with urls exist</li>
+                    : this.state.loading ? null : <li>No tweets with urls exist.</li>
 				}
 				</ul>
 			</div>
