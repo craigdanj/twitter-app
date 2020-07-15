@@ -39,30 +39,38 @@ class App extends React.Component {
 		//Strip url params after being redirected from twitter app. Can be move to another function.
 		this.stripUrlParams(urlParams);
 
-		if (oauthToken && oauthVerifier) {
+		if(!localStorage.getItem('oauthAccessToken')) {
 
-			//Get access tokens. Store them in local storage to be used with subsequent requests.
-			fetch(`http://localhost:8080/sessions/getAccessTokens?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`) 
-				.then(response => response.json()) 
-				.then(data => {
 
-					if(data.success) {
-						localStorage.setItem('oauthAccessToken', data.oauthAccessToken);
-						localStorage.setItem('oauthAccessTokenSecret', data.oauthAccessTokenSecret);
+			if (oauthToken && oauthVerifier) {
 
-						this.setState({
-							showHome: true
-						});
+				//Get access tokens. Store them in local storage to be used with subsequent requests.
+				fetch(`http://localhost:8080/sessions/getAccessTokens?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`) 
+					.then(response => response.json()) 
+					.then(data => {
 
-					} else {
-						//Send back to login page if token has expired or is invalid.
-						this.setState({
-							showHome: false
-						});
+						if(data.success) {
+							localStorage.setItem('oauthAccessToken', data.oauthAccessToken);
+							localStorage.setItem('oauthAccessTokenSecret', data.oauthAccessTokenSecret);
 
-						console.error('Token invalid');
-					}
-				});
+							this.setState({
+								showHome: true
+							});
+
+						} else {
+							//Send back to login page if token has expired or is invalid.
+							this.setState({
+								showHome: false
+							});
+
+							console.error('Token invalid');
+						}
+					});
+			}
+		} else {
+			this.setState({
+				showHome: true
+			});
 		}
 	}
 
