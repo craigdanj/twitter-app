@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Home from './components/home';
+import Login from './components/login';
 
 class App extends React.Component {
 
@@ -67,18 +68,11 @@ class App extends React.Component {
 
 	render() {
 
-		const login = (
-			<div>
-				<p>Hello welcome to the test application! Click on login below to log into the app</p>
-				<button className="login" onClick={this.loginClicked}>Login with Twitter</button>
-			</div>
-		);
-
 		return (
 			<div className="App">
 				<h1>The Twitter App</h1>
 
-				{ this.state.showHome ? <Home /> : login }
+				{ this.state.showHome ? <Home /> : <Login loginClicked={this.loginClicked}/> }
 				
 			</div>
 		);
