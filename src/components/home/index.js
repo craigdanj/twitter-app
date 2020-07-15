@@ -9,7 +9,7 @@ class Home extends React.Component {
         loading: true,
 		posts: []
     };
-    
+
     logout = () => {
         localStorage.removeItem('oauthAccessToken');
         localStorage.removeItem('oauthAccessTokenSecret');
@@ -23,7 +23,7 @@ class Home extends React.Component {
                 if (data.success) {
                     const filteredPosts = data.posts.filter(post => {
                         
-                        console.log(urlRegex.exec(post.text)[1]);
+                        console.log(urlRegex.exec(post.text));
                         if (urlRegex.exec(post.text)[1]) {
                             return true;
                         }
@@ -46,18 +46,24 @@ class Home extends React.Component {
 	render() {
 
 		return (
-			<div class="main">
-				<button onClick={this.logout} className="logout">logout</button>
+            <>
+                <div className="main">
+                    <ul className="tweetList">
+                    {this.state.posts.length ?
+                        this.state.posts.map(post => {
+                            return <li key={post.id}>{post.text}</li>
+                        })
+                        : this.state.loading ? null : <li>No tweets with urls exist.</li>
+                    }
+                    </ul>
+                </div>
+                <div className="sidebar">
+                    <button onClick={this.logout} className="logout">logout</button>
 
-				<ul className="tweetList">
-				{this.state.posts.length ?
-					this.state.posts.map(post => {
-						return <li key={post.id}>{post.text}</li>
-                    })
-                    : this.state.loading ? null : <li>No tweets with urls exist.</li>
-				}
-				</ul>
-			</div>
+                    <p>Top URL Sharer: TomDooley</p>
+                    <p>Most popular website: Stacker</p>
+                </div>
+            </>
 		);
 	}
 }

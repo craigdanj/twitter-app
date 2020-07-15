@@ -31,9 +31,17 @@ button.login {
 }
 
 .logout {
-  float: right;
+  margin-bottom: 20px;
 }
 
 .main {
   width: 60%;
+  display: inline-block;
+}
+
+.sidebar {
+  width: 40%;
+  display: inline-block;
+  padding: 20px;
+  box-sizing: border-box;
 }
