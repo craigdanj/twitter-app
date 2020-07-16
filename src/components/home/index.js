@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {serverUrl} from '../../constants'
 
 const urlRegex = new RegExp('([a-zA-Z\d]+://)?((\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?)', 'i');
 
@@ -17,18 +17,22 @@ class Home extends React.Component {
     };
 
 	componentDidMount() {
-        fetch(`http://localhost:8080/sessions/getPosts?oauthAccessToken=${localStorage.getItem('oauthAccessToken')}&oauthAccessTokenSecret=${localStorage.getItem('oauthAccessTokenSecret')}`) 
+        fetch(`${serverUrl}/sessions/getPosts?oauthAccessToken=${localStorage.getItem('oauthAccessToken')}&oauthAccessTokenSecret=${localStorage.getItem('oauthAccessTokenSecret')}`) 
             .then(response => response.json()) 
             .then(data => {
                 if (data.success) {
                     const filteredPosts = data.posts.filter(post => {
-                        
-                        console.log(urlRegex.exec(post.text));
                         if (urlRegex.exec(post.text)[1]) {
                             return true;
                         }
                         return false;
-                    })
+                    });
+
+                    const userMap = {};
+
+                    filteredPosts.forEach( post => {
+                        userMap[post.user.id] = userMap[post.user.id] ? userMap[post.user.id]+1 : 1;
+                    });
 
                     this.setState({
                         posts: filteredPosts
@@ -41,7 +45,7 @@ class Home extends React.Component {
                 console.error('something went wrong');
                 this.setState({loading : false});
             }); 
-	}
+    }
 
 	render() {
 
@@ -51,7 +55,12 @@ class Home extends React.Component {
                     <ul className="tweetList">
                     {this.state.posts.length ?
                         this.state.posts.map(post => {
-                            return <li key={post.id}>{post.text}</li>
+                            return (
+                                <li className="tweet" key={post.id}>
+                                    <p className="username">{post.user.name}: <span className="screenName">@{post.user.screen_name}</span></p>
+                                    <p className="text">{post.text}</p>
+                                </li>
+                            )
                         })
                         : this.state.loading ? null : <li>No tweets with urls exist.</li>
                     }
@@ -60,8 +69,8 @@ class Home extends React.Component {
                 <div className="sidebar">
                     <button onClick={this.logout} className="logout">logout</button>
 
-                    <p>Top URL Sharer: TomDooley</p>
-                    <p>Most popular website: Stacker</p>
+                    <p>Top URL Sharer: </p>
+                    <p>Most popular website: </p>
                 </div>
             </>
 		);

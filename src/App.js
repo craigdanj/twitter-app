@@ -2,20 +2,30 @@ import React from 'react';
 import './App.css';
 import Home from './components/home';
 import Login from './components/login';
+import Header from './components/header';
+import {serverUrl} from './constants'
 
 class App extends React.Component {
 
 	state = {
-		showHome: false
+		showHome: false,
+		searchString: ''
 	};
 
 	loginClicked = () => {
-		fetch("http://localhost:8080/sessions/connect") 
+		fetch(`${serverUrl}/sessions/connect`) 
 		.then(response => response.json()) 
 		.then(data => {
 			window.location.href = data.redirectUrl;
 		});
 	};
+
+	onSearch = (value) => {
+		console.log(value)
+		this.setState({
+			searchString: value
+		})
+	}
 
 	stripUrlParams(urlParams) {
 		let url = new URL(window.location.href);
@@ -45,7 +55,7 @@ class App extends React.Component {
 			if (oauthToken && oauthVerifier) {
 
 				//Get access tokens. Store them in local storage to be used with subsequent requests.
-				fetch(`http://localhost:8080/sessions/getAccessTokens?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`) 
+				fetch(`${serverUrl}/sessions/getAccessTokens?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`) 
 					.then(response => response.json()) 
 					.then(data => {
 
@@ -78,9 +88,12 @@ class App extends React.Component {
 
 		return (
 			<div className="App">
-				<h1>The Twitter App</h1>
-
-				{ this.state.showHome ? <Home /> : <Login loginClicked={this.loginClicked}/> }
+				<Header triggerSearch={this.onSearch}/>
+				{ 
+					this.state.showHome ?
+						<Home searchString={this.state.searchString}/> :
+						<Login loginClicked={this.loginClicked}/>
+				}
 				
 			</div>
 		);
