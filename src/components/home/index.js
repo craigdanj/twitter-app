@@ -1,8 +1,6 @@
 import React from 'react';
 import {serverUrl} from '../../constants'
 
-const urlRegex = new RegExp('([a-zA-Z\d]+://)?((\w+:\w+@)?([a-zA-Z\d.-]+\.[A-Za-z]{2,4})(:\d+)?(/.*)?)', 'i');
-
 class Home extends React.Component {
 
 	state = {
@@ -21,22 +19,27 @@ class Home extends React.Component {
             .then(response => response.json()) 
             .then(data => {
                 if (data.success) {
-                    // const filteredPosts = data.posts.filter(post => {
-                    //     if (urlRegex.exec(post.text)[1]) {
-                    //         return true;
-                    //     }
-                    //     return false;
-                    // });
-
-                    // const userMap = {};
-
-                    // filteredPosts.forEach( post => {
-                    //     userMap[post.user.id] = userMap[post.user.id] ? userMap[post.user.id]+1 : 1;
-                    // });
-
                     this.setState({
                         posts: data.posts
                     });
+
+                    //Get posts with urls for data in sidebar.
+                    const filteredPosts = data.posts.filter(post => {
+                        console.log(post)
+                        // if (post.user.entities.url.urls.length) {
+                        //     return true;
+                        // }
+                        return false;
+                    });
+
+                    const userMap = {};
+
+                    filteredPosts.forEach( post => {
+                        userMap[post.user.name] = userMap[post.user.name] ? userMap[post.user.name] + 1 : 1;
+                    });
+
+                    console.log(filteredPosts)
+                    console.log(userMap)
                 }
 
                 this.setState({loading : false});
