@@ -88,7 +88,7 @@ class App extends React.Component {
 
 		return (
 			<div className="App">
-				<Header triggerSearch={this.onSearch}/>
+				<Header triggerSearch={this.onSearch} showSearch={this.state.showHome}/>
 				{ 
 					this.state.showHome ?
 						<Home searchString={this.state.searchString}/> :

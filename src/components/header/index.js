@@ -10,7 +10,11 @@ export default function Header(props) {
 			<div className="header">
 				<h1>
 					The Twitter App
-					<input type="text" className="search" placeholder="Search" onChange={handleOnChange}/>
+
+					{
+						props.showSearch && <input type="text" className="search" placeholder="Search" onChange={handleOnChange}/>
+					}
+					
 				</h1>
 			</div>	
 		);

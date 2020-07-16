@@ -21,21 +21,21 @@ class Home extends React.Component {
             .then(response => response.json()) 
             .then(data => {
                 if (data.success) {
-                    const filteredPosts = data.posts.filter(post => {
-                        if (urlRegex.exec(post.text)[1]) {
-                            return true;
-                        }
-                        return false;
-                    });
+                    // const filteredPosts = data.posts.filter(post => {
+                    //     if (urlRegex.exec(post.text)[1]) {
+                    //         return true;
+                    //     }
+                    //     return false;
+                    // });
 
-                    const userMap = {};
+                    // const userMap = {};
 
-                    filteredPosts.forEach( post => {
-                        userMap[post.user.id] = userMap[post.user.id] ? userMap[post.user.id]+1 : 1;
-                    });
+                    // filteredPosts.forEach( post => {
+                    //     userMap[post.user.id] = userMap[post.user.id] ? userMap[post.user.id]+1 : 1;
+                    // });
 
                     this.setState({
-                        posts: filteredPosts
+                        posts: data.posts
                     });
                 }
 
