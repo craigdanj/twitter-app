@@ -1,3 +1,9 @@
+This is the client code for the twitter app. The code for the server with which it commmuicates with can be found at [craigdanj/twitter-app-server](https://github.com/craigdanj/twitter-app-server).
+
+The interacts with the twitter API using OAuth1.0a.
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
