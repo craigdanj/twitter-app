@@ -7,7 +7,7 @@ class Home extends React.Component {
         loading: true,
         posts: [],
         topUrlSharer: null,
-        mostSharedDomain: null
+        mostSharedDomains: []
     };
 
     logout = () => {
@@ -56,7 +56,7 @@ class Home extends React.Component {
 
                         //Pull the highest count.
                         const maxCount = Math.max(...countArray);
-                        //Find index of highest count
+                        //Find index of highest count.
                         const indexOfMaxCount = countArray.indexOf(maxCount);
                         const userArray = Object.keys(userPostCountMap);
                         //You can use index to pull corresponding username from map.
@@ -76,15 +76,26 @@ class Home extends React.Component {
                             urlMap[url] = urlMap[url] ? urlMap[url] + 1 : 1;
                         });
 
-                        const urlCountArray = Object.values(urlMap);
-                        const maxURLCount = Math.max(...urlCountArray);
-                        const indexOfMaxURLCount = urlCountArray.indexOf(maxURLCount);
-                        const urlArray = Object.keys(urlMap);
+                        //Push top 3 domains on mostSharedDomain.
 
+                        const topDomains = [];
+
+                        for ( let i = 0; i < Object.values(urlMap).length ; i++) {
+
+                            const urlCountArray = Object.values(urlMap);
+                            const maxURLCount = Math.max(...urlCountArray);
+                            const indexOfMaxURLCount = urlCountArray.indexOf(maxURLCount);
+                            const urlArray = Object.keys(urlMap);
+
+                            topDomains.push(urlArray[indexOfMaxURLCount]);
+                            delete urlMap[urlArray[indexOfMaxURLCount]];
+
+                            if (topDomains.length >= 3) break;
+                        }
 
                         this.setState({
                             topUrlSharer: userArray[indexOfMaxCount],
-                            mostSharedDomain: urlArray[indexOfMaxURLCount]
+                            mostSharedDomains: topDomains
                         });
 
 
@@ -125,7 +136,14 @@ class Home extends React.Component {
                     <button onClick={this.logout} className="logout">logout</button>
 
                     <p>Top URL Sharer: {this.state.topUrlSharer}</p>
-                    <p>Most popular website: {this.state.mostSharedDomain}</p>
+                    <p>Most popular websites:</p>
+                    <ul>
+                        {
+                            this.state.mostSharedDomains.map( domain => (
+                                <li key={domain}>{domain}</li>
+                            ))
+                        }
+                    </ul>
                 </div>
             </>
 		);
