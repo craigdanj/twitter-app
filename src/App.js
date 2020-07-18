@@ -21,7 +21,6 @@ class App extends React.Component {
 	};
 
 	onSearch = (value) => {
-		console.log(value)
 		this.setState({
 			searchString: value
 		})
