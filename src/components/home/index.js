@@ -3271,6 +3271,8 @@ class Home extends React.Component {
 
         // console.log(post.user.location);
         // console.log(post.entities.hashtags);
+
+        //You could memoize the filter function to improve performance.
         let filteredPostsBySearch = [];
         if (this.props.searchString.length) {
 
@@ -3279,17 +3281,17 @@ class Home extends React.Component {
                 if (post.entities.hashtags.length) {
                     // console.log(post.entities.hashtags)
 
+                    //Convert to lower case to provide case insensitive search.
                     const hashTagStrings = post.entities.hashtags.map( hashtag => hashtag.text.toLowerCase() );
 
                     if (hashTagStrings.includes(this.props.searchString.toLowerCase())) {
-                        //if exists in array return true
+                        //If exists in array return true
                         return true;
                     }
                 }
                 return false;
                 
             });
-            console.log(filteredPostsBySearch);
         } else {
             filteredPostsBySearch = this.state.posts;
         }

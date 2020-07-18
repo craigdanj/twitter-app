@@ -1,10 +1,27 @@
 import React from 'react';
 
-export default function Header(props) {
+class Header extends React.Component {
 
-		function handleOnChange(e) {
-			props.triggerSearch(e.target.value);
-		}
+	state = {
+		searchString: '',
+		searchParam: 'hashtag'
+	};
+
+	handleOnChange = (e) => {
+		this.setState({
+			searchString: e.target.value
+		})
+		this.props.triggerSearch(e.target.value);
+	}
+
+	handleOnOptionChange = (e) => {
+		this.setState({
+			searchParam: e.target.value
+		})
+		this.props.triggerSearchParamChange(e.target.value);
+	}
+
+	render() {
 
 		return (
 			<div className="header">
@@ -12,11 +29,25 @@ export default function Header(props) {
 					The Twitter App
 
 					{
-						props.showSearch && <input type="text" className="search" placeholder="Search" onChange={handleOnChange}/>
+						this.props.showSearch && (
+							<>
+								<input type="text" className="search" placeholder="Search" onChange={this.handleOnChange} value={this.state.searchString}/>
+
+								<span className="filterOptions">
+									<input type="radio" id="hashtag" name="searchParam" value="hashtag" checked={this.state.searchParam === 'hashtag'} onChange={this.handleOnOptionChange}/>
+									<label for="hashtag">By Hashtag</label>
+
+									<input type="radio" id="location" name="searchParam" value="location" onChange={this.handleOnOptionChange}
+									checked={this.state.searchParam === 'location'}/>
+									<label for="location">By Location</label>
+								</span>
+							</>
+						)
 					}
-					
 				</h1>
 			</div>	
 		);
-
+	}
 }
+
+export default Header;

@@ -30,6 +30,25 @@ body {
   text-indent: 10px;
 }
 
+.header .filterOptions {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 36px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.header .filterOptions input {
+  margin-left: 15px;
+}
+
+.header .filterOptions input,
+.header .filterOptions label {
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+
 button.login {
   padding: 10px;
   cursor: pointer;

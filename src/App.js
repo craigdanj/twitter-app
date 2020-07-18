@@ -9,7 +9,8 @@ class App extends React.Component {
 
 	state = {
 		showHome: false,
-		searchString: ''
+		searchString: '',
+		searchParam: ''
 	};
 
 	loginClicked = () => {
@@ -23,7 +24,14 @@ class App extends React.Component {
 	onSearch = (value) => {
 		this.setState({
 			searchString: value
-		})
+		});
+	}
+
+	onSearchParamChange = (value) => {
+		console.log('>>>>>', value);
+		this.setState({
+			searchParam: value
+		});
 	}
 
 	stripUrlParams(urlParams) {
@@ -87,10 +95,10 @@ class App extends React.Component {
 
 		return (
 			<div className="App">
-				<Header triggerSearch={this.onSearch} showSearch={this.state.showHome}/>
-				{ 
+				<Header triggerSearch={this.onSearch} triggerSearchParamChange={this.onSearchParamChange} showSearch={this.state.showHome}/>
+				{
 					this.state.showHome ?
-						<Home searchString={this.state.searchString}/> :
+						<Home searchString={this.state.searchString} searchParam={this.state.searchParam}/> :
 						<Login loginClicked={this.loginClicked}/>
 				}
 				
