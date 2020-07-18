@@ -63,7 +63,7 @@ class Home extends React.Component {
 
 
                         //-------------------------------------
-                        //Logic to find most popular website.
+                        //Logic to find most popular websites.
 
                         const urlMap = {};
 
@@ -76,7 +76,7 @@ class Home extends React.Component {
                             urlMap[url] = urlMap[url] ? urlMap[url] + 1 : 1;
                         });
 
-                        //Push top 3 domains on mostSharedDomain.
+                        //Push top 3 domains on mostSharedDomains.
 
                         const topDomains = [];
 
@@ -97,9 +97,6 @@ class Home extends React.Component {
                             topUrlSharer: userArray[indexOfMaxCount],
                             mostSharedDomains: topDomains
                         });
-
-
-
                     }
 
 
