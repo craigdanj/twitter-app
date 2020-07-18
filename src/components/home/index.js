@@ -6,7 +6,8 @@ class Home extends React.Component {
 	state = {
         loading: true,
         posts: [],
-        topUrlSharer: null
+        topUrlSharer: null,
+        mostSharedDomain: null
     };
 
     logout = () => {
@@ -3094,49 +3095,75 @@ class Home extends React.Component {
                 posts: data.posts
             });
 
+            let urlList = [];
+
             //Get posts with urls for data in sidebar.
             const filteredPosts = data.posts.filter(post => {
                 if (post.entities.urls.length) {
+                    //Also push urls onto an array to calculate most popular websites.
+                    urlList = urlList.concat(post.entities.urls);
                     return true;
-
-                    //Later push urls onto an array to calculate most popular websites.
                 }
                 return false;
             });
 
-            const userPostCountMap = {};
+            if (filteredPosts.length) {
+                
+                //-------------------------------------
+                //Logic to find author with highest post count with links.
+                const userPostCountMap = {};
 
-            //Logic to find author with highest post count with links.
+                //Store post count per user in map.
+                filteredPosts.forEach( post => {
+                    userPostCountMap[post.user.name] = userPostCountMap[post.user.name] ? userPostCountMap[post.user.name] + 1 : 1;
+                });
 
-            //Store post count per user in map.
-            filteredPosts.forEach( post => {
-                userPostCountMap[post.user.name] = userPostCountMap[post.user.name] ? userPostCountMap[post.user.name] + 1 : 1;
-            });
+                //Find object values.
+                const countArray = Object.values(userPostCountMap);
 
-            //Find object values.
-            const countArray = Object.values(userPostCountMap);
-            console.log(countArray);
+                //Pull the highest count.
+                const maxCount = Math.max(...countArray);
+                //Find index of highest count
+                const indexOfMaxCount = countArray.indexOf(maxCount);
+                const userArray = Object.keys(userPostCountMap);
+                //You can use index to pull corresponding username from map.
 
-            const maxCount = Math.max(...countArray);
-            console.log(maxCount);
 
-            const indexOfMaxCount = countArray.indexOf(maxCount);
-            console.log(indexOfMaxCount);
+                //-------------------------------------
+                //Logic to find most popular website.
 
-            const userArray = Object.keys(userPostCountMap);
-            console.log(userArray);
+                const urlMap = {};
 
-            const userWithMaxCount = userArray[indexOfMaxCount];
-            console.log(userWithMaxCount)
+                urlList = urlList.map(url => {
+                    //Pull only the domain from the url.
+                    return url.expanded_url.split('/').slice(0, 3).join('/');
+                });
 
-            this.setState({
-                topUrlSharer: userArray[indexOfMaxCount]
-            })
-            //Find object keys.
-            //Find index of highest value in value array.
-            //Use that index to find corresponding key in userMap.
+                urlList.forEach( url => {
+                    urlMap[url] = urlMap[url] ? urlMap[url] + 1 : 1;
+                });
 
-           
+                const urlCountArray = Object.values(urlMap);
+                const maxURLCount = Math.max(...urlCountArray);
+                const indexOfMaxURLCount = urlCountArray.indexOf(maxURLCount);
+                const urlArray = Object.keys(urlMap);
+
+                console.log(urlMap);
+                console.log(urlCountArray);
+                console.log(maxURLCount);
+                console.log(indexOfMaxURLCount);
+                console.log(urlArray[indexOfMaxURLCount]);
+
+                this.setState({
+                    topUrlSharer: userArray[indexOfMaxCount],
+                    mostSharedDomain: urlArray[indexOfMaxURLCount]
+                });
+
+
+
+            }
+
+
         }
 
         // fetch(`${serverUrl}/sessions/getPosts?oauthAccessToken=${localStorage.getItem('oauthAccessToken')}&oauthAccessTokenSecret=${localStorage.getItem('oauthAccessTokenSecret')}`) 
@@ -3198,7 +3225,7 @@ class Home extends React.Component {
                     <button onClick={this.logout} className="logout">logout</button>
 
                     <p>Top URL Sharer: {this.state.topUrlSharer}</p>
-                    <p>Most popular websites: </p>
+                    <p>Most popular website: {this.state.mostSharedDomain}</p>
                 </div>
             </>
 		);
