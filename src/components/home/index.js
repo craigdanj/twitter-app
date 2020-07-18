@@ -125,22 +125,32 @@ class Home extends React.Component {
                                 </li>
                             )
                         })
-                        : this.state.loading ? null : <li>No tweets with urls exist.</li>
+                        : this.state.loading ? null : <li>No posts exist.</li>
                     }
                     </ul>
                 </div>
                 <div className="sidebar">
                     <button onClick={this.logout} className="logout">logout</button>
 
-                    <p>Top URL Sharer: {this.state.topUrlSharer}</p>
-                    <p>Most popular websites:</p>
-                    <ul>
-                        {
-                            this.state.mostSharedDomains.map( domain => (
-                                <li key={domain}>{domain}</li>
-                            ))
-                        }
-                    </ul>
+                    {this.state.topUrlSharer ?
+                        (
+                            <>
+                                <p>Top URL Sharer: </p>
+                                <p className="info">{this.state.topUrlSharer}</p>
+                                <p>Most popular websites:</p>
+                                <ul className="info">
+                                    {
+                                        this.state.mostSharedDomains.map( domain => (
+                                            <li key={domain}>{domain}</li>
+                                        ))
+                                    }
+                                </ul>
+                            </>
+                        ) : (
+                            <p>No posts with urls exist</p>
+                        )
+                    }
+                    
                 </div>
             </>
 		);

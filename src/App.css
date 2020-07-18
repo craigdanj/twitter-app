@@ -82,3 +82,7 @@ button.login {
   font-weight: bold;
   outline: none;
 }
+
+.sidebar .info {
+  color: white;
+}
