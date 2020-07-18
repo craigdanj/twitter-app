@@ -34,12 +34,17 @@ class Header extends React.Component {
 								<input type="text" className="search" placeholder="Search" onChange={this.handleOnChange} value={this.state.searchString}/>
 
 								<span className="filterOptions">
-									<input type="radio" id="hashtag" name="searchParam" value="hashtag" checked={this.state.searchParam === 'hashtag'} onChange={this.handleOnOptionChange}/>
-									<label for="hashtag">By Hashtag</label>
+									<label>
+										<input type="radio" id="hashtag" name="searchParam" value="hashtag" checked={this.state.searchParam === 'hashtag'} onChange={this.handleOnOptionChange}/>
+										By Hashtag
+									</label>
 
-									<input type="radio" id="location" name="searchParam" value="location" onChange={this.handleOnOptionChange}
-									checked={this.state.searchParam === 'location'}/>
-									<label for="location">By Location</label>
+									
+									<label>
+										<input type="radio" id="location" name="searchParam" value="location" onChange={this.handleOnOptionChange}
+										checked={this.state.searchParam === 'location'}/>
+										By Location
+									</label>
 								</span>
 							</>
 						)

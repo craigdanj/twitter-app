@@ -10,7 +10,7 @@ class App extends React.Component {
 	state = {
 		showHome: false,
 		searchString: '',
-		searchParam: ''
+		searchParam: 'hashtag'
 	};
 
 	loginClicked = () => {

@@ -3278,18 +3278,29 @@ class Home extends React.Component {
 
             filteredPostsBySearch = this.state.posts.filter(post => {
 
-                if (post.entities.hashtags.length) {
-                    // console.log(post.entities.hashtags)
+                if (this.props.searchParam === 'hashtag') {
+                    //Logic for search by hashtag
+                    if (post.entities.hashtags.length) {
 
-                    //Convert to lower case to provide case insensitive search.
-                    const hashTagStrings = post.entities.hashtags.map( hashtag => hashtag.text.toLowerCase() );
+                        //Convert to lower case to provide case insensitive search.
+                        const hashTagStrings = post.entities.hashtags.map( hashtag => hashtag.text.toLowerCase() );
 
-                    if (hashTagStrings.includes(this.props.searchString.toLowerCase())) {
-                        //If exists in array return true
+                        if (hashTagStrings.includes(this.props.searchString.toLowerCase())) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+
+                } else if (this.props.searchParam === 'location') {
+                    //Logic for search by location string
+
+                    if (post.user.location.toLowerCase() === this.props.searchString.toLowerCase()) {
                         return true;
                     }
+
+                    return false;
                 }
-                return false;
                 
             });
         } else {
