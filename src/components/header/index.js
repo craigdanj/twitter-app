@@ -39,7 +39,6 @@ class Header extends React.Component {
 										By Hashtag
 									</label>
 
-									
 									<label>
 										<input type="radio" id="location" name="searchParam" value="location" onChange={this.handleOnOptionChange}
 										checked={this.state.searchParam === 'location'}/>
