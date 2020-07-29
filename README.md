@@ -1,4 +1,4 @@
-#Twitter App
+# Twitter App
 
 This is a project to demonstrate how authentication and authorisation can be set up when integrating with the twitter API [developer.twitter.com](https://developer.twitter.com/en).
 
