@@ -4,7 +4,7 @@ This is a project to demonstrate the process by which a twitter OAuth token can 
 
 This repository contains the client code for the twitter app. The code for the server with which it commmuicates with can be found at [craigdanj/twitter-app-server](https://github.com/craigdanj/twitter-app-server).
 
-The client is built with ReactJS and the server wit hnode.
+The client is built with ReactJS and the server with Node.
 
 This project uses the OAuth1.0a authentication mechanism.
 
