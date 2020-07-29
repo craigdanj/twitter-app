@@ -1,6 +1,6 @@
 # Twitter App
 
-This is a project to demonstrate how authentication and authorisation can be set up when integrating with the twitter API [developer.twitter.com](https://developer.twitter.com/en).
+This is a project to demonstrate the process by which a twitter OAuth token can be obtained. This can then be used for authentication and authorisation when  integrating with the twitter API [developer.twitter.com](https://developer.twitter.com/en).
 
 This repository contains the client code for the twitter app. The code for the server with which it commmuicates with can be found at [craigdanj/twitter-app-server](https://github.com/craigdanj/twitter-app-server).
 
