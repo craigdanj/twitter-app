@@ -1,4 +1,4 @@
-# Twitter App
+# Twitter API Integration
 
 A project to demonstrate the process by which a twitter OAuth token can be obtained. This can then be used for authentication and authorisation when  integrating with the twitter API [developer.twitter.com](https://developer.twitter.com/en).
 
